@@ -4,7 +4,7 @@
 # annotations: {}
 
 image:
-  repository: ghcr.io/fluxcd/flagger
+  repository: ghcr.io/hoffmannandrey/flagger
   tag: 1.45.0
   pullPolicy: IfNotPresent
   pullSecret:

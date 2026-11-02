@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 env:
-  IMAGE: "ghcr.io/fluxcd/${{ github.event.repository.name }}"
+  IMAGE: "ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}"
 
 jobs:
   release-flagger:
@@ -54,7 +54,7 @@ jobs:
         uses: docker/login-action@af1e73f918a031802d376d3c8bbc3fe56130a9b0 # v4.4.0
         with:
           registry: ghcr.io
-          username: fluxcdbot
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Generate image meta
         id: meta
@@ -90,7 +90,7 @@ jobs:
           COSIGN_EXPERIMENTAL: 1
         run: |
           OCI_URL=$(flux push artifact \
-            oci://ghcr.io/fluxcd/flagger-manifests:${{ steps.prep.outputs.VERSION }} \
+            oci://ghcr.io/${{ github.repository_owner }}/flagger-manifests:${{ steps.prep.outputs.VERSION }} \
             --path="./kustomize" \
             --source="$(git config --get remote.origin.url)" \
             --revision="${{ steps.prep.outputs.VERSION }}/$(git rev-parse HEAD)" \
@@ -113,8 +113,8 @@ jobs:
           COSIGN_EXPERIMENTAL: 1
         run: |
           helm package charts/flagger
-          helm push flagger-${{ steps.prep.outputs.VERSION }}.tgz oci://ghcr.io/fluxcd/charts |& tee .digest
-          cosign sign --yes ghcr.io/fluxcd/charts/flagger@$(cat .digest | awk -F "[, ]+" '/Digest/{print $NF}')
+          helm push flagger-${{ steps.prep.outputs.VERSION }}.tgz oci://ghcr.io/${{ github.repository_owner }}/charts |& tee .digest
+          cosign sign --yes ghcr.io/${{ github.repository_owner }}/charts/flagger@$(cat .digest | awk -F "[, ]+" '/Digest/{print $NF}')
           rm flagger-${{ steps.prep.outputs.VERSION }}.tgz
           rm .digest
       - uses: anchore/sbom-action/download-syft@e22c389904149dbc22b58101806040fa8d37a610 # v0.24.0

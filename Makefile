@@ -51,7 +51,7 @@ release:
 	git push origin "v$(VERSION)"
 
 loadtester-build:
-	docker build -t ghcr.io/fluxcd/flagger-loadtester:$(LT_VERSION) . -f Dockerfile.loadtester
+	docker build -t ghcr.io/hoffmannandrey/flagger-loadtester:$(LT_VERSION) . -f Dockerfile.loadtester
 
 loadtester-push:
-	docker push ghcr.io/fluxcd/flagger-loadtester:$(LT_VERSION)
+	docker push ghcr.io/hoffmannandrey/flagger-loadtester:$(LT_VERSION)

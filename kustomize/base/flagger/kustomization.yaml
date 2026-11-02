@@ -7,6 +7,6 @@ resources:
   - crd.yaml
   - deployment.yaml
 images:
-  - name: ghcr.io/fluxcd/flagger
-    newName: ghcr.io/fluxcd/flagger
+  - name: ghcr.io/hoffmannandrey/flagger
+    newName: ghcr.io/hoffmannandrey/flagger
     newTag: 1.45.0
