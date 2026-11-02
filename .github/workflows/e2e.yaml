@@ -14,9 +14,7 @@ permissions:
 
 jobs:
   e2e-test:
-    runs-on:
-      group: "Default Larger Runners"
-      labels: ubuntu-latest-16-cores
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
